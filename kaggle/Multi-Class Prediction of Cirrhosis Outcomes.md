@@ -2,9 +2,12 @@
 | ---- | -------------------------------------------------------------------------------------------------------- | ---- |
 | Name | [Multi-Class Prediction of Cirrhosis Outcomes](https://www.kaggle.com/competitions/playground-series-s3e26) |      |
 | Tags | Time Series Analysis Multi-Class                                                                         |      |
-| Time |                                                                                                          |      |
+| Time | 2023-3                                                                                                   |      |
 
 # Multi-Class Prediction of Cirrhosis Outcomes
+
+数据集描述：
+![1709354325504](image/Multi-ClassPredictionofCirrhosisOutcomes/1709354325504.png)
 
 ## **1.投票最高的笔记本**
 
@@ -60,6 +63,12 @@
 
 ### 1.2 [PS3E26 🔥 | Liver Cirrhosis | EDA | Model ✍](https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model)
 
+* 数据预处理：
+
+  * 删除 Drug 列中存在缺失值 (NA) 的所有行
+  * 用平均结果估算缺失值
+  * 对所有类别属性进行 One-hot 编码
+* 
 
 ### 1.3[Medical Analysis-Added 21 Features | XGB](https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb)
 
