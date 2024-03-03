@@ -81,5 +81,38 @@
 
 ## **2.得分最高的笔记本**
 
+### 2.1[Medical Analysis-Added 21 Features | XGB](https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb)
+
+1. 解决目标类别不平衡（效果不好）：[探索SMOTE算法 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/275744968)
+2. 查看数据特征的正常分布范围：`train_data.describe()`
+3. 不同类型的特征采用不同的编码方式，甚至根据特征的具体含义创建独特的编码方式：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=22
+
+   * **`OrdinalEncoder`**：`Drug`、`Sex`、`Ascites`、`Hepatomegaly`、`Spiders`和 `Stage`进行编码
+   * **`OneHotEncoder`**：`Edema`
+   * `LabelEncoder`：`LABEL`
+4. 轻松应用上述逐特征进行代码块：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=24
+5. 创建额外特征：
+
+   * **`DiagnosisDateTransformer`** ：计算诊断日期。通过从患者的年龄中减去已知患病天数，估算出患者被诊断出疾病的大致日期。
+   * **`AgeYearsTransformer`** ：将年龄转换为年，并对患病天数进行缩放。这有助于模型更好地理解时间相关的特征。
+   * **`AgeGroupsTransformer`** ：将年龄分组。基于年龄将患者分为不同的组别，以探索年龄如何影响疾病的发展。
+   * **`BilirubinAlbuminTransformer`** ：创建胆红素和白蛋白的交互项。这可能揭示这两个生化指标相互作用对疾病进程的影响。
+   * **`DrugEffectivenessTransformer`** ：计算药物效果的特征。这个转换器似乎试图通过药物类型和胆红素水平的乘积来评估药物的效果，但由于 `Drug`是分类变量，直接乘法可能不适用，需要进一步的调整或解释。
+   * **`SymptomScoreTransformer`** ：计算症状分数。通过对一系列症状指标进行求和，为每个患者生成一个症状分数。
+   * **`SymptomCatTransformer`** ：将症状信息进行独热编码。首先将多个症状指标合并为一个字符串，然后使用独热编码转换，这可以帮助模型更好地理解症状组合的复杂性。
+   * **`LiverFunctionTransformer`** ：计算肝功能指数。通过对几个与肝功能相关的指标求平均值，生成一个综合的肝功能指数。
+   * **`RiskScoreTransformer`** ：计算风险分数。结合胆红素、白蛋白和碱性磷酸酶（Alk_Phos）来评估患者的健康风险。
+   * **`TimeFeaturesTransformer`** ：提取时间特征。将患病天数转换为诊断年份和月份，可能有助于揭示疾病进程随时间的变化。
+   * **`ScalingTransformer`** ：对数值型特征进行标准化处理。这是机器学习中常见的预处理步骤，有助于模型更好地学习和收敛。
+6. 异常值检测：特征值与平均值相差超过 6 个标准差的观测值被视为异常值，我们希望将其删除。
+7. 计算偏差特征并创建“_is_normal”特征：最初的饼图说明了正常范围内和之外的患者分布，**但没有指定是低于还是高于**！重要的是要认识到，从医学角度来看，并非所有特征在正常范围之外都会带来风险。例如，白蛋白低于正常范围时存在风险，而胆红素高于正常范围时存在风险。因此，对所有特征采用二元方法（正常范围内/正常范围外）可能并不合适。相反，我们应该将它们分类为上面（对于大多数功能）、下面（对于白蛋白）或两者（对于血小板）。
+8. 偏差列的最终形状：负偏差（原本低于正常范围的值）/ 正偏差（原本高于正常范围的值）/ 零偏差（原本在正常范围内的值）。
+9. 特殊模式：某些特征在低于正常范围时会带来更大的风险，而在高于正常范围时则相反。白蛋白的独特模式 - 每个去世的人的白蛋白水平都低于正常范围。相比之下，对于大多数其他特征，读数主要高于正常范围。
+10. 从论文中发掘新特征：白蛋白-胆红素的新功能，该论文强调了用作肝脏相关死亡率预测因子的各种相关特征，包括梅奥评分。关于 ALBI，研究论文指出，根据 ALBI 值将患者分为三组，如下图所示。因此，我将在分析中包括ALBI_status。
+
+    ![1709472836022](image/Multi-ClassPredictionofCirrhosisOutcomes/1709472836022.png)
+11. PCA：我从总共 72 个特征中选择了大约 30 个进行训练。MLmosaic 提出了一种有效策略，将剩余特征用于主成分分析 (PCA)。经过多次试验，我确定了 PCA 整合的最佳特征以及为训练目的而保留的特征。Mayo 风险评分和 ALBI 被放入 PCA，而 **ALBI_status 被保留用于直接训练目的；**解释的方差比**：这表示第一主成分保留了原始数据多少百分比的方差（或信息）。这个指标有助于评估降维的效果。**
+12. 平均投票分类器 `MyAvgVoting`：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=75
+13. 结合其他方案结果的代码段：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=83
 
 ## **3.高分方法与讨论**
