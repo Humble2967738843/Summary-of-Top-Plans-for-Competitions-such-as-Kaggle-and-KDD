@@ -63,12 +63,25 @@
 
 ### 1.2 [PS3E26 🔥 | Liver Cirrhosis | EDA | Model ✍](https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model)
 
-* 数据预处理：
+1. 数据预处理：
 
-  * 删除 Drug 列中存在缺失值 (NA) 的所有行
-  * 用平均结果估算缺失值
-  * 对所有类别属性进行 One-hot 编码
-* 
+   * 删除 Drug 列中存在缺失值 (NA) 的所有行
+   * 用平均结果估算缺失值
+   * 对所有类别属性进行 One-hot 编码
+2. 分析合成数据和原始数据分布发现：
+
+   * Tryglicerides 有一些异常值，因为 q3 为 139，但 ax 高达 598：我们需要对其使用 **RobustScaler**，将其限制在 IQR 内
+   * 同样，Alk_Phos 也有许多异常值，需要使用 RobustScaler 重新缩放
+   * 胆固醇、胆红素和凝血酶原也相同
+   * 🤩绘制每一特征关于目标列每一分类的小提琴图：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=66
+   * 🤩原始数据和合成数据在每一列上的小提琴分布图：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=63
+   * D 类患者似乎与 C 类和 CL 类患者有很大不同。区分 D 与 C 和 CL 会更容易。挑战部分是准确确定 CL 级患者并将其与 C 级患者区分开来
+3. 🤩使用TimeLinks进行下采样：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=89
+4. 🤩分层K折CV最佳实践：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=95
+5. 🤩使用shap库进行特征重要性解释：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=96
+6. 🤩[XGB、CATBOOST 和 LGBM 的组合]()投票模型集成：https://www.kaggle.com/code/ashishkumarak/ps3e26-liver-cirrhosis-eda-model?scriptVersionId=156056966&cellId=105
+
+   ![1709563100134](image/Multi-ClassPredictionofCirrhosisOutcomes/1709563100134.png)
 
 ### 1.3[Medical Analysis-Added 21 Features | XGB](https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb)
 
@@ -113,6 +126,6 @@
     ![1709472836022](image/Multi-ClassPredictionofCirrhosisOutcomes/1709472836022.png)
 11. PCA：我从总共 72 个特征中选择了大约 30 个进行训练。MLmosaic 提出了一种有效策略，将剩余特征用于主成分分析 (PCA)。经过多次试验，我确定了 PCA 整合的最佳特征以及为训练目的而保留的特征。Mayo 风险评分和 ALBI 被放入 PCA，而 **ALBI_status 被保留用于直接训练目的；**解释的方差比**：这表示第一主成分保留了原始数据多少百分比的方差（或信息）。这个指标有助于评估降维的效果。**
 12. 平均投票分类器 `MyAvgVoting`：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=75
-13. 结合其他方案结果的代码段：https://www.kaggle.com/code/omega11/medical-analysis-added-21-features-xgb?scriptVersionId=157737446&cellId=83
+13. 结合其他方案结果的代码段：
 
 ## **3.高分方法与讨论**
