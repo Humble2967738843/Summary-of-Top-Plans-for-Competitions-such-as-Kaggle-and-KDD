@@ -3,7 +3,6 @@
 | Tags |                                                                                          |
 | Time |                                                                                          |
 
-
 # Steel Plate Defect Prediction
 
 ## 1EDA
