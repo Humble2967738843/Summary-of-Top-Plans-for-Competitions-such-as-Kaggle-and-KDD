@@ -353,10 +353,51 @@
 | 198       | 26455     | -0.323923048 | 5.956440  | -50.73011  | -9.829998  | -3.460050 | -0.169873240 | 2.959967  | 8.529425  | 59.93008  |
 | 199       | 21615     | 0.132372610  | 9.060902  | -60.83012  | -14.020205 | -5.009770 | 0.089406970  | 5.099773  | 14.369488 | 79.90002  |
 
-1. 绘制散点图，展示每个股票的目标变量均值（mean）与标准差（stdev）之间的关系 
+1. 绘制散点图，展示每个股票的目标变量均值（mean）与标准差（stdev）之间的关系
 
    ![1711291756899](image/Optiver-TradingattheClose/1711291756899.png)
-2. 
+2. 两个变量（mean和stdev）之间的皮尔逊和斯皮尔曼相关性系数：
+
+   ```
+   Pearson correlation:  0.4838524 
+   Spearman correlation: 0.4754579
+   ```
+3. ggplot2库创建一个小提琴图（violin plot），用于展示数据集df中seconds_in_bucket和target之间的分布情况
+
+   ![1711359688294](image/Optiver-TradingattheClose/1711359688294.png)
+4. 利用 ggplot2 库创建一个小提琴图（violin plot），用于展示数据集 df 中 imbalance_buy_sell_flag 和 target 之间的分布情况
+
+   ![1711359936542](image/Optiver-TradingattheClose/1711359936542.png)
+5. 在R中绘制一个散点图，展示特定股票数据集中target与date_id之间的关系
+
+   ![1711360160607](image/Optiver-TradingattheClose/1711360160607.png)
+6. 绘制特定股票数据集中指定变量 `seconds_in_bucket` 与目标变量 `target` 之间的关系散点图
+
+   ![1711360219945](image/Optiver-TradingattheClose/1711360219945.png)
+7. 绘制特定股票数据集中指定变量 `wap`（加权平均价格）与目标变量 `target` 之间的关系散点图
+
+   ![1711360423021](image/Optiver-TradingattheClose/1711360423021.png)
+8. 绘制特定股票数据集中指定变量 `imbalance_size`（不平衡大小）与目标变量 `target` 之间的关系散点图
+
+   ![1711360482916](image/Optiver-TradingattheClose/1711360482916.png)
+9. `ggplot2` 包中的 `ggplot()` 函数和 `geom_violin()` 函数来创建小提琴图，用于展示特定股票数据集中不同 `imbalance_buy_sell_flag` 类别的 `target` 分布情况
+
+   ![1711361300887](image/Optiver-TradingattheClose/1711361300887.png)
+10. Pearson correlation of numerical features
+
+    ![1711361359171](image/Optiver-TradingattheClose/1711361359171.png)
+11. Spearman correlation of numerical features
+
+    ![1711361403009](image/Optiver-TradingattheClose/1711361403009.png)
+12. scatter plots of sizes (log scale)
+
+    ![1711361449573](image/Optiver-TradingattheClose/1711361449573.png)
+13. scatter plot ask_size vs bid_size
+
+    ![1711361521755](image/Optiver-TradingattheClose/1711361521755.png)
+14. scatter plot ask_price vs bid_price
+
+    ![1711361590583](image/Optiver-TradingattheClose/1711361590583.png)
 
 # 2.投票最高的笔记本
 
